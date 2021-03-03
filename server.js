@@ -1,6 +1,7 @@
 const express = require('express')
 const { v4: uuidv4 } = require('uuid') // npm install uuid
 const mongoose = require('mongoose')
+const User = require('./User')
 
 mongoose
   .connect('mongodb://localhost/lean-coffee-board', {
@@ -16,14 +17,14 @@ let users = []
 
 app.use(express.json()) // add middleware for json data
 
-app.get('/api/users', (req, res) => {
-  res.json(users)
+app.get('/api/users', async (req, res) => {
+  res.json(await User.find())
 })
 
 // user eine uuid zuweisen und nach id suchen
-app.get('/api/users/:id', (req, res) => {
+app.get('/api/users/:id', async (req, res) => {
   const { id } = req.params //destructuring Assignment
-  res.json(users.find(user => user.id === id))
+  res.json(await User.findOne({ id }))
 })
 
 // user nach id löschen // curl -H http://localhost:3000/user/<id>
@@ -34,10 +35,10 @@ app.delete('/api/users/:id', (req, res) => {
   res.json(users)
 })
 
-app.post('/api/users', (req, res) => {
-  const newUser = { ...req.body, id: uuidv4() }
-  users.push(newUser)
-  res.json(newUser)
+app.post('/api/users', async (req, res) => {
+  //   const newUser = { ...req.body, id: uuidv4() }
+  //   users.push(newUser)
+  res.json(await User.create(req.body)) // erzeugt uns einen neuen user und eine id wird automatisch erzeugt
 })
 
 app.get('/api/cards', (req, res) => {
