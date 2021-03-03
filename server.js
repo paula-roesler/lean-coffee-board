@@ -4,7 +4,7 @@ uuidv4()
 
 const app = express()
 
-const users = []
+let users = []
 
 app.use(express.json()) // add middleware for json data
 
@@ -12,9 +12,18 @@ app.get('/api/users', (req, res) => {
   res.json(users)
 })
 
+// user eine uuid zuweisen und nach id suchen
 app.get('/api/users/:id', (req, res) => {
   const { id } = req.params //destructuring Assignment
   res.json(users.find(user => user.id === id))
+})
+
+// user nach id löschen
+app.delete('/api/users/:id', (req, res) => {
+  const { id } = req.params
+  const index = users.findIndex(user => user.id === id)
+  users = [...users.slice(0, index), ...users.slice(index + 1)]
+  res.json(users)
 })
 
 app.post('/api/users', (req, res) => {
