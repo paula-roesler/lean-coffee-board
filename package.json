@@ -13,6 +13,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^2.0.7",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "uuidv4": "^6.2.6"
   }
 }
