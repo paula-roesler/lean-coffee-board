@@ -1,6 +1,14 @@
 const express = require('express')
 const { v4: uuidv4 } = require('uuid') // npm install uuid
-uuidv4()
+const mongoose = require('mongoose')
+
+mongoose
+  .connect('mongodb://localhost/lean-coffee-board', {
+    useNewURLParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Connected to mongodb'))
+  .catch(error => console.error('Could not connect to mongodb', error))
 
 const app = express()
 
@@ -18,7 +26,7 @@ app.get('/api/users/:id', (req, res) => {
   res.json(users.find(user => user.id === id))
 })
 
-// user nach id löschen
+// user nach id löschen // curl -H http://localhost:3000/user/<id>
 app.delete('/api/users/:id', (req, res) => {
   const { id } = req.params
   const index = users.findIndex(user => user.id === id)
