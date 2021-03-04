@@ -28,4 +28,15 @@ router.patch('/:id', async (req, res, next) => {
   )
 })
 
+router.patch('/:id/vote', async (req, res, next) => {
+  const { id } = req.params
+  res.json(
+    await Card.findByIdAndUpdate(
+      id,
+      { $inc: { votes: 1 } }, // $inc = increment votes um 1 wenn url/:id/vote aufgerufen wird
+      { new: true }
+    ).catch(next)
+  )
+})
+
 module.exports = router
