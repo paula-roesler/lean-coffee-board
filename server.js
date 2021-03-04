@@ -23,12 +23,12 @@ app.get('/api/users', async (req, res, next) => {
 
 app.get('/api/users/:id', async (req, res, next) => {
   const { id } = req.params //destructuring Assignment
-  res.json(await User.findOne({ id }).catch(next))
+  res.json(await User.findById({ id }).catch(next))
 })
 
 app.delete('/api/users/:id', async (req, res, next) => {
   const { id } = req.params
-  res.json(await User.deleteOne({ id }).catch(next))
+  res.json(await User.findByIdAndDelete({ id }).catch(next))
 })
 
 app.post('/api/users', async (req, res, next) => {
@@ -42,7 +42,7 @@ app.get('/api/cards', async (req, res, next) => {
 
 app.get('/api/cards/:id', async (req, res, next) => {
   const { id } = req.params
-  res.json(await Card.findOne({ id }).populate('author').catch(next))
+  res.json(await Card.findById(id).populate('author').catch(next))
 })
 
 app.post('/api/cards', async (req, res, next) => {
@@ -51,12 +51,19 @@ app.post('/api/cards', async (req, res, next) => {
 
 app.delete('/api/cards/:id', async (req, res, next) => {
   const { id } = req.params
-  res.json(await Card.deleteOne({ id }).catch(next))
+  res.json(await Card.findByIdAndDelete(id).catch(next))
+})
+
+app.patch('/api/cards/:id', async (req, res, next) => {
+  const { id } = req.params
+  res.json(
+    await Card.findByIdAndUpdate(id, req.body, { new: true }).catch(next)
+  )
 })
 
 app.use((err, req, res, next) => {
   console.log(err.message) // err objekt hat immer eine message property
-  res.JSON({ error: err })
+  res.JSON({ error: err.message })
 })
 
 app.listen(3000, () => {
