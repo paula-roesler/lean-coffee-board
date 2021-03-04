@@ -1,9 +1,9 @@
-module.exports
+const mongoose = require('mongoose')
 
 module.exports = function setupMongo() {
   mongoose
     .connect('mongodb://localhost/lean-coffee-board', {
-      useNewURLParser: true,
+      useNewUrlParser: true,
       useUnifiedTopology: true,
     })
     .then(() => console.log('Connected to mongodb'))

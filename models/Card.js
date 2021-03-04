@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const cardSchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
     text: String,
     author: {
@@ -12,7 +12,7 @@ const cardSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  { timestamps: Date, versionKey: false }
+  { timestamps: true, versionKey: false }
 )
 
-module.exports = mongoose.model('Card', cardSchema)
+module.exports = mongoose.model('Card', schema)
